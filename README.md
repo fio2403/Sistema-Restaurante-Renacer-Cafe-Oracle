@@ -1,30 +1,28 @@
-# ☕ Sistema Automatizado de Gestión de Ventas y Reportes - Renacer Café
+# Sistema del Restaurante — Flask + Oracle
 
-Este repositorio contiene la solución tecnológica en base de datos desarrollada para optimizar los procesos operativos, la toma de pedidos, el control de ventas y la generación de reportes estratégicos para la cafetería **Renacer Café**.
+Versión corregida para tablas del esquema `SYSTEM` y servicio Oracle `XE`.
 
----
+## Pasos
 
-## 🎯 Objetivo del Proyecto
+1. Ejecuta `BaseDatos_SYSTEM.sql` en Oracle SQL Developer conectado como `SYSTEM`.
+2. Abre `.env` y reemplaza `COLOCA_AQUI_TU_CONTRASENA` por tu contraseña de Oracle.
+3. Ejecuta `INICIAR_GUI.bat`, o desde una terminal:
 
-Transformar el flujo operativo de la cafetería mediante la automatización de procesos clave a nivel de base de datos, reduciendo el margen de error manual, mejorando los tiempos de atención y garantizando la integridad de los datos comerciales.
+```bash
+python -m pip install -r requirements.txt
+python app.py
+```
 
----
+4. Abre `http://127.0.0.1:5000`.
 
-## 🛠️ Tecnologías e Instrumentos Utilizados
+## Corrección del registro de ventas
 
-* **Base de Datos:** Oracle Database
-* **Entorno de Desarrollo:** Oracle SQL Developer
-* **Lenguaje:** SQL y PL/SQL
-  * Scripts de creación de objetos y tablas (**DDL**).
-  * Carga de datos de prueba e inserción (**DML**).
-  * Lógica de negocio automatizada mediante **Triggers**, **Procedimientos Almacenados** y **Funciones**.
-  * Consultas avanzadas y reportes estratégicos.
-* **Documentación:** Diagramas ERD (Entidad-Relación), modelos de proceso AS-IS / TO-BE e informe técnico en PDF.
+Los identificadores Oracle definidos como `CHAR(10)` pueden llegar con espacios de relleno. Esta versión normaliza el código seleccionado y compara los códigos recuperados desde Oracle antes de insertar la cuenta y el detalle. Además, reutiliza el identificador original devuelto por Oracle para respetar la clave foránea.
 
----
+Al iniciar debe verse en la terminal:
 
-## 🚀 Características Principales
+```text
+Iniciando GUI Restaurante - versión 2026.07-VENTAS-CORREGIDAS
+```
 
-* **Gestión de Pedidos y Ventas:** Control estructurado de clientes, productos, pedidos y facturación.
-* **Lógica Automatizada en BD:** Validaciones de inventario y reglas del negocio ejecutadas mediante triggers y procedimientos en Oracle.
-* **Módulo de Reportes:** Consultas SQL avanzadas para monitorear las ventas diarias, productos más vendidos y métricas clave del restaurante.
+Esto confirma que se está ejecutando el archivo corregido.

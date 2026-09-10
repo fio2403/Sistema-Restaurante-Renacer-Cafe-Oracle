@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block title %}Ventas{% endblock %}
+{% block content %}
+<h2>Registrar venta</h2>
+<p class="nota">Esta versión registra una cuenta y un detalle en una sola operación.</p>
+
+<form method="post" class="formulario">
+    <label>Código de cuenta
+        <input name="id_cuenta" value="{{ id_cuenta }}" maxlength="10" required>
+    </label>
+    <label>Código de detalle
+        <input name="id_detalle" value="{{ id_detalle }}" maxlength="10" required>
+    </label>
+    <label>Cliente
+        <select name="id_cliente" required>
+            {% for cliente in clientes %}
+                <option value="{{ cliente.id_cliente }}">{{ cliente.cliente }}</option>
+            {% endfor %}
+        </select>
+    </label>
+    <label>Estado
+        <select name="id_estado" required>
+            {% for estado in estados %}
+                <option value="{{ estado.id_estado }}">{{ estado.descripcion }}</option>
+            {% endfor %}
+        </select>
+    </label>
+    <label>Registro diario
+        <select name="id_registro" required>
+            {% for registro in registros %}
+                <option value="{{ registro.id_registro_diario }}">
+                    {{ registro.id_registro_diario }} — {{ registro.fecha }}
+                </option>
+            {% endfor %}
+        </select>
+    </label>
+    <label>Plato
+        <select name="id_plato" required>
+            {% for plato in platos %}
+                <option value="{{ plato.id_plato_carta|trim }}">
+                    {{ plato.nombre }} — S/ {{ "%.2f"|format(plato.precio_venta) }}
+                </option>
+            {% endfor %}
+        </select>
+    </label>
+    <label>Cantidad
+        <input type="number" name="cantidad" value="1" min="1" required>
+    </label>
+    <label>Modalidad
+        <select name="llevar" required>
+            <option value="0">Consumo local</option>
+            <option value="1">Para llevar</option>
+        </select>
+    </label>
+    <button type="submit">Registrar venta</button>
+</form>
+
+<h2>Cuentas registradas</h2>
+<div class="tabla-contenedor">
+<table>
+<thead><tr><th>Cuenta</th><th>Cliente</th><th>Total</th><th>Estado</th><th>Fecha</th></tr></thead>
+<tbody>
+{% for cuenta in cuentas %}
+<tr>
+    <td>{{ cuenta.id_cuenta }}</td>
+    <td>{{ cuenta.cliente }}</td>
+    <td>S/ {{ "%.2f"|format(cuenta.precio_total) }}</td>
+    <td>{{ cuenta.estado }}</td>
+    <td>{{ cuenta.fecha }}</td>
+</tr>
+{% else %}
+<tr><td colspan="5">No hay cuentas.</td></tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+{% endblock %}

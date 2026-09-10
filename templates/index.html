@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Inicio{% endblock %}
+{% block content %}
+<section class="hero">
+    <h2>Panel principal</h2>
+    <p>Interfaz web conectada a Oracle.</p>
+    <div class="acciones-centradas">
+        <a class="boton" href="{{ url_for('probar_conexion') }}">Probar conexión</a>
+        <a class="boton secundario" href="{{ url_for('diagnostico') }}">Revisar tablas</a>
+    </div>
+</section>
+
+<section class="indicadores">
+    <article><span>Clientes</span><strong>{{ indicadores.clientes }}</strong></article>
+    <article><span>Platos</span><strong>{{ indicadores.platos }}</strong></article>
+    <article><span>Cuentas fiadas</span><strong>{{ indicadores.fiados }}</strong></article>
+    <article><span>Caja acumulada</span><strong>S/ {{ "%.2f"|format(indicadores.caja) }}</strong></article>
+</section>
+
+<section class="tarjetas">
+    <a href="{{ url_for('clientes') }}"><h3>Clientes</h3><p>Registrar, listar y eliminar.</p></a>
+    <a href="{{ url_for('platos') }}"><h3>Platos</h3><p>Registrar y consultar ganancias.</p></a>
+    <a href="{{ url_for('ventas') }}"><h3>Ventas</h3><p>Registrar una cuenta con su detalle.</p></a>
+    <a href="{{ url_for('fiados') }}"><h3>Reporte de fiados</h3><p>Consultar cuentas pendientes.</p></a>
+    <a href="{{ url_for('caja') }}"><h3>Caja diaria</h3><p>Revisar el registro diario.</p></a>
+    <a href="{{ url_for('diagnostico') }}"><h3>Diagnóstico</h3><p>Ver el usuario, servicio y tablas disponibles.</p></a>
+</section>
+{% endblock %}

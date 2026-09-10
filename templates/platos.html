@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Platos{% endblock %}
+{% block content %}
+<h2>Gestión de platos</h2>
+
+<form method="post" class="formulario">
+    <label>Código
+        <input name="id_plato" value="{{ codigo_sugerido }}" maxlength="10" required>
+    </label>
+    <label>Nombre
+        <input name="nombre" maxlength="49" required>
+    </label>
+    <label>Precio de venta
+        <input type="number" name="precio" step="0.01" min="0.01" required>
+    </label>
+    <label>Costo
+        <input type="number" name="costo" step="0.01" min="0" required>
+    </label>
+    <label>Tipo
+        <select name="tipo" required>
+            <option value="LOC">Local</option>
+            <option value="LLE">Llevar</option>
+            <option value="BOD">Bodega</option>
+        </select>
+    </label>
+    <button type="submit">Guardar plato</button>
+</form>
+
+<div class="tabla-contenedor">
+<table>
+<thead>
+<tr>
+    <th>Código</th><th>Nombre</th><th>Venta</th><th>Costo</th>
+    <th>Ganancia</th><th>Ingredientes</th><th>Tipo</th><th>Acción</th>
+</tr>
+</thead>
+<tbody>
+{% for plato in platos %}
+<tr>
+    <td>{{ plato.id_plato_carta }}</td>
+    <td>{{ plato.nombre }}</td>
+    <td>S/ {{ "%.2f"|format(plato.precio_venta) }}</td>
+    <td>S/ {{ "%.2f"|format(plato.costo) }}</td>
+    <td>S/ {{ "%.2f"|format(plato.ganancia) }}</td>
+    <td>{{ plato.cantidad_ingredientes }}</td>
+    <td>{{ plato.tipo }}</td>
+    <td>
+        <form method="post" action="{{ url_for('eliminar_plato', id_plato=plato.id_plato_carta) }}"
+              onsubmit="return confirm('¿Eliminar plato?')">
+            <button class="peligro">Eliminar</button>
+        </form>
+    </td>
+</tr>
+{% else %}
+<tr><td colspan="8">No hay platos o no se pudo consultar la tabla.</td></tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Clientes{% endblock %}
+{% block content %}
+<h2>Gestión de clientes</h2>
+
+<form method="post" class="formulario">
+    <label>Código
+        <input name="id_cliente" value="{{ codigo_sugerido }}" maxlength="10" required>
+    </label>
+    <label>DNI
+        <input name="dni" maxlength="8" pattern="[0-9]{8}" required>
+    </label>
+    <label>Nombre
+        <input name="nombre" maxlength="49" required>
+    </label>
+    <label>Apellido
+        <input name="apellido" maxlength="25" required>
+    </label>
+    <label>Teléfono
+        <input name="numero" maxlength="9" pattern="[0-9]{9}" required>
+    </label>
+    <label>Especialidad
+        <input name="especialidad" maxlength="49" value="Ninguna" required>
+    </label>
+    <label>Cargo
+        <select name="id_tipo" required>
+            <option value="">Seleccione</option>
+            {% for cargo in cargos %}
+                <option value="{{ cargo.id_tipo }}">{{ cargo.nombre }}</option>
+            {% endfor %}
+        </select>
+    </label>
+    <button type="submit">Guardar cliente</button>
+</form>
+
+<div class="tabla-contenedor">
+<table>
+<thead>
+<tr>
+    <th>Código</th><th>DNI</th><th>Nombre</th><th>Teléfono</th>
+    <th>Especialidad</th><th>Cargo</th><th>Acción</th>
+</tr>
+</thead>
+<tbody>
+{% for cliente in clientes %}
+<tr>
+    <td>{{ cliente.id_cliente }}</td>
+    <td>{{ cliente.dni }}</td>
+    <td>{{ cliente.nombre }} {{ cliente.apellido }}</td>
+    <td>{{ cliente.numero }}</td>
+    <td>{{ cliente.especialidad }}</td>
+    <td>{{ cliente.cargo }}</td>
+    <td>
+        <form method="post" action="{{ url_for('eliminar_cliente', id_cliente=cliente.id_cliente) }}"
+              onsubmit="return confirm('¿Eliminar cliente?')">
+            <button class="peligro">Eliminar</button>
+        </form>
+    </td>
+</tr>
+{% else %}
+<tr><td colspan="7">No hay clientes o no se pudo consultar la tabla.</td></tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+{% endblock %}

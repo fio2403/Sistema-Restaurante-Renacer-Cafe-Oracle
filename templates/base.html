@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Sistema del Restaurante{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilos.css') }}">
+</head>
+<body>
+<header class="cabecera">
+    <div class="cabecera-contenido">
+        <h1>Sistema del Restaurante</h1>
+        <nav>
+            <a href="{{ url_for('inicio') }}">Inicio</a>
+            <a href="{{ url_for('clientes') }}">Clientes</a>
+            <a href="{{ url_for('platos') }}">Platos</a>
+            <a href="{{ url_for('ventas') }}">Ventas</a>
+            <a href="{{ url_for('fiados') }}">Fiados</a>
+            <a href="{{ url_for('caja') }}">Caja</a>
+            <a href="{{ url_for('diagnostico') }}">Diagnóstico</a>
+        </nav>
+    </div>
+</header>
+
+<main class="contenedor">
+    {% with mensajes = get_flashed_messages(with_categories=true) %}
+        {% for categoria, mensaje in mensajes %}
+            <div class="mensaje {{ categoria }}">{{ mensaje }}</div>
+        {% endfor %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+</main>
+
+<footer>
+    Oracle: {{ db_user }} · Esquema consultado: {{ db_schema }}
+</footer>
+</body>
+</html>

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Fiados{% endblock %}
+{% block content %}
+<div class="titulo-total">
+    <h2>Reporte de cuentas fiadas</h2>
+    <strong>Total: S/ {{ "%.2f"|format(total) }}</strong>
+</div>
+<div class="tabla-contenedor">
+<table>
+<thead><tr><th>Cuenta</th><th>Cliente</th><th>Especialidad</th><th>Pago</th><th>Deuda</th></tr></thead>
+<tbody>
+{% for item in fiados %}
+<tr>
+    <td>{{ item.id_cuenta }}</td>
+    <td>{{ item.cliente }}</td>
+    <td>{{ item.especialidad }}</td>
+    <td>{{ item.tipo_pago }}</td>
+    <td>S/ {{ "%.2f"|format(item.precio_total) }}</td>
+</tr>
+{% else %}
+<tr><td colspan="5">No hay cuentas pendientes.</td></tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+{% endblock %}

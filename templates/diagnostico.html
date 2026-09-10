@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %}Diagnóstico{% endblock %}
+{% block content %}
+<h2>Diagnóstico de Oracle</h2>
+
+<section class="diagnostico-resumen">
+    <p><strong>Usuario conectado:</strong> {{ datos.usuario or "No disponible" }}</p>
+    <p><strong>Servicio:</strong> {{ datos.servicio or "No disponible" }}</p>
+    <p><strong>DB_SCHEMA configurado:</strong> {{ db_schema }}</p>
+</section>
+
+<h3>Prueba de tablas usadas por la GUI</h3>
+<div class="tabla-contenedor">
+<table>
+<thead><tr><th>Módulo</th><th>Tabla consultada</th><th>Resultado</th></tr></thead>
+<tbody>
+{% for prueba in datos.pruebas %}
+<tr>
+    <td>{{ prueba.nombre }}</td>
+    <td><code>{{ prueba.tabla }}</code></td>
+    <td>
+        {% if prueba.ok %}
+            <span class="estado-ok">Correcta — {{ prueba.total }} registros</span>
+        {% else %}
+            <span class="estado-error">{{ prueba.error }}</span>
+        {% endif %}
+    </td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+
+<h3>Tablas 202601 del usuario conectado</h3>
+{% if datos.tablas_usuario %}
+<div class="chips">
+    {% for tabla in datos.tablas_usuario %}<code>{{ tabla }}</code>{% endfor %}
+</div>
+{% else %}
+<p class="mensaje error">
+    El usuario conectado no es propietario de ninguna tabla cuyo nombre empiece por 202601.
+</p>
+{% endif %}
+
+<h3>Tablas 202601 accesibles y sus propietarios</h3>
+<div class="tabla-contenedor">
+<table>
+<thead><tr><th>Propietario</th><th>Tabla</th></tr></thead>
+<tbody>
+{% for tabla in datos.tablas_accesibles %}
+<tr><td>{{ tabla.owner }}</td><td>{{ tabla.table_name }}</td></tr>
+{% else %}
+<tr><td colspan="2">No se encontró ninguna tabla 202601 accesible.</td></tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+
+<div class="ayuda">
+    <h3>Cómo corregir ORA-00942</h3>
+    <p>
+        Si las tablas aparecen con otro propietario, coloca ese propietario en el archivo
+        <code>.env</code>. Ejemplo:
+    </p>
+    <pre>DB_SCHEMA=RESTAURANTE</pre>
+    <p>
+        El usuario de <code>DB_USER</code> también necesita permisos SELECT, INSERT,
+        UPDATE y DELETE; la opción más rápida es conectarte directamente como el propietario.
+    </p>
+</div>
+{% endblock %}

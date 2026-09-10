@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Caja{% endblock %}
+{% block content %}
+<div class="titulo-total">
+    <h2>Caja diaria</h2>
+    <strong>Total acumulado: S/ {{ "%.2f"|format(total) }}</strong>
+</div>
+<div class="tabla-contenedor">
+<table>
+<thead><tr><th>Código</th><th>Fecha</th><th>Caja del día</th></tr></thead>
+<tbody>
+{% for registro in registros %}
+<tr>
+    <td>{{ registro.id_registro_diario }}</td>
+    <td>{{ registro.fecha }}</td>
+    <td>S/ {{ "%.2f"|format(registro.caja_dia) }}</td>
+</tr>
+{% else %}
+<tr><td colspan="3">No hay registros diarios.</td></tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+{% endblock %}
